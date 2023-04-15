@@ -36,19 +36,9 @@ sounding* recordSounding(unsigned long mu_s) {
   return s;
 }
 
-sounding* executeTEM() {
+void sendData(sounding* s) {
 
-  // Trigger relay ON
-  digitalWrite(TRANSMITTER_RELAY_PIN, HIGH);
-  digitalWrite(TRANSMITTER_RELAY_PIN, LOW);
 
-  delayMicroseconds(TRANSMITTER_ON_TIME);
-
-  // Trigger relay OFF
-  digitalWrite(TRANSMITTER_RELAY_PIN, HIGH);
-  digitalWrite(TRANSMITTER_RELAY_PIN, LOW);
-
-  return recordSounding(RECORD_SOUNDING_TIME);
 }
 
 
@@ -62,11 +52,11 @@ void setup() {
   
   
   /*
-  double times[NUM_SAMPLES];
-  double voltages[NUM_SAMPLES];
+    double times[NUM_SAMPLES];
+    double voltages[NUM_SAMPLES];
 
-  // Conduct TEM survey
-  for (int i = 0; i < NUM_SAMPLES; i++) {
+    // Conduct TEM survey
+    for (int i = 0; i < NUM_SAMPLES; i++) {
     // Turn on transmitter
     digitalWrite(TRANSMITTER_PIN, HIGH);
 
@@ -84,14 +74,26 @@ void setup() {
 
     // Wait for sample time
     delayMicroseconds(SAMPLE_TIME_US);
-  }
+    }
   */
 
 }
 
 void loop() {
 
+  // Holding the button will repeat TEM sounding measurements
   if (digitalRead(BUTTON_PIN) == LOW) {
-    executeTEM();
+
+    // Trigger relay ON
+    digitalWrite(TRANSMITTER_RELAY_PIN, HIGH);
+    digitalWrite(TRANSMITTER_RELAY_PIN, LOW);
+
+    delayMicroseconds(TRANSMITTER_ON_TIME);
+
+    // Trigger relay OFF
+    digitalWrite(TRANSMITTER_RELAY_PIN, HIGH);
+    digitalWrite(TRANSMITTER_RELAY_PIN, LOW);
+    
+    sendData(recordSounding(RECORD_SOUNDING_TIME));
   }
 }
