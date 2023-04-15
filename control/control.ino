@@ -1,15 +1,13 @@
-#define TRANSMITTER_PIN 10
-#define RECEIVER_PIN 11
 
-// Define timing parameters
-#define DELAY_TIME_US 1000 // Delay between transmitter and receiver
-#define SAMPLE_TIME_US 100 // Time to sample the receiver
+#define TRANSMITTER_RELAY_PIN 10
+#define RECEIVER_RELAY_PIN 11
+#define BUTTON_PIN 12 // TEMP VALUE
 
-// Define data arrays
-#define NUM_SAMPLES 1000
+// TEMP VALUES
+#define TRANSMITTER_ON_TIME 100 // Pulse length in microseconds 
+#define RECORD_SOUNDING_TIME 100 // Recording duration in microseconds
 
-
-#define SAMPLE_TIME_INTERVAL_MICROSEC 100 // Delay between each sample
+#define SAMPLE_TIME_INTERVAL_MICROSEC 100 // Delay between each sample in microseconds
 
 struct sounding {
   unsigned long time;
@@ -30,7 +28,7 @@ sounding* recordSounding(unsigned long mu_s) {
     delayMicroseconds(SAMPLE_TIME_INTERVAL_MICROSEC);
 
     s[i].time = micros() - t1;
-    s[i].voltage = analogRead(RECEIVER_PIN);
+    s[i].voltage = analogRead(RECEIVER_RELAY_PIN);
     
     i++;
   }
@@ -38,12 +36,31 @@ sounding* recordSounding(unsigned long mu_s) {
   return s;
 }
 
+sounding* executeTEM() {
+
+  // Trigger relay ON
+  digitalWrite(TRANSMITTER_RELAY_PIN, HIGH);
+  digitalWrite(TRANSMITTER_RELAY_PIN, LOW);
+
+  delayMicroseconds(TRANSMITTER_ON_TIME);
+
+  // Trigger relay OFF
+  digitalWrite(TRANSMITTER_RELAY_PIN, HIGH);
+  digitalWrite(TRANSMITTER_RELAY_PIN, LOW);
+
+  return recordSounding(RECORD_SOUNDING_TIME);
+}
 
 
 void setup() {
   // put your setup code here, to run once:
   // Define pin numbers for transmitter and receiver
 
+  digitalWrite(TRANSMITTER_RELAY_PIN, LOW);
+  digitalWrite(RECEIVER_RELAY_PIN, LOW);
+  
+  
+  
   /*
   double times[NUM_SAMPLES];
   double voltages[NUM_SAMPLES];
@@ -57,7 +74,7 @@ void setup() {
     delayMicroseconds(DELAY_TIME_US);
 
     // Read receiver voltage
-    voltages[i] = analogRead(RECEIVER_PIN);
+    voltages[i] = analogRead(RECEIVER_RELAY_PIN);
 
     // Record time
     times[i] = (double)i * SAMPLE_TIME_US;
@@ -69,9 +86,12 @@ void setup() {
     delayMicroseconds(SAMPLE_TIME_US);
   }
   */
+
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  
+
+  if (digitalRead(BUTTON_PIN) == LOW) {
+    executeTEM();
+  }
 }
