@@ -6,5 +6,5 @@ ser.baudrate = 9600
 ser.timeout = None
 
 while True:
-    data = ser.read(1)
+    data = ser.read(4)
     print(data)
