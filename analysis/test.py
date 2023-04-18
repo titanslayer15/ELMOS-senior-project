@@ -6,5 +6,9 @@ ser.baudrate = 9600
 ser.timeout = None
 
 while True:
-    data = ser.read(4)
-    print(data)
+    time = ser.read(4)
+    volt = ser.read(4)
+    print(time)
+    print(volt)
+    print('\n\n')
+    

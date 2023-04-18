@@ -9,10 +9,6 @@ void setup() {
   long time = micros();
   int voltage = 1000;
 
-  // long time_buf[4] = {time[0], time[1], time[2], time[3]}
-
-  /* String result = String(time + "," + voltage, DEC); */
-
   
   Serial.write(time);
   Serial.write(time>>4);
