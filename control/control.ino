@@ -15,47 +15,6 @@ struct sounding {
   int voltage;
 };
 
-/*
-sounding* recordSounding(unsigned long mu_s) {
-  unsigned long t1 = micros();
-  unsigned long t2 = t1 + mu_s;
-
-  int numSamples = (int)(mu_s / SAMPLE_TIME_INTERVAL_MICROSEC) + 10;
-
-  sounding s[numSamples];
-
-  int i = 0;
-  
-  while (micros() < t2) {
-    delayMicroseconds(SAMPLE_TIME_INTERVAL_MICROSEC);
-
-    s[i].time = micros() - t1;
-    s[i].voltage = analogRead(VOLTAGE_INPUT_PIN);
-    
-    i++;
-  }
-  
-  return s;
-}
-
-void sendData(sounding s[]) {
-
-  int len = sizeof(s) / sizeof(sounding);
-  
-  for (int i = 0; i < len; i++) {
-    Serial.write(s[i].time);
-    Serial.write(s[i].time>>4);
-    Serial.write(s[i].time>>8);
-    Serial.write(s[i].time>>12);
-  
-    Serial.write(s[i].voltage);
-    Serial.write(s[i].voltage>>4);
-    Serial.write(s[i].voltage>>8);
-    Serial.write(s[i].voltage>>12);
-  }
-}
-*/
-
 void setup() {
 
   digitalWrite(TRANSMITTER_RELAY_PIN, LOW);
@@ -94,9 +53,8 @@ void setup() {
 
 
   // Send data
-  int len = sizeof(s) / sizeof(sounding);
 
-  for (int i = 0; i < len; i++) {
+  for (int i = 0; i < numSamples; i++) {
     Serial.write(s[i].time);
     Serial.write(s[i].time>>4);
     Serial.write(s[i].time>>8);
@@ -107,6 +65,8 @@ void setup() {
     Serial.write(s[i].voltage>>8);
     Serial.write(s[i].voltage>>12);
   }
+
+  Serial.write("stop");
 }
 
 void loop() {
