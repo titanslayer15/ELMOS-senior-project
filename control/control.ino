@@ -54,16 +54,16 @@ void setup() {
 
   // Send data
 
-  for (int i = 0; i < numSamples; i++) {
-    Serial.write(s[i].time);
-    Serial.write(s[i].time>>4);
-    Serial.write(s[i].time>>8);
-    Serial.write(s[i].time>>12);
+  for (int j = 0; j < numSamples; j++) {
+    Serial.write(s[j].time);
+    Serial.write(s[j].time>>4);
+    Serial.write(s[j].time>>8);
+    Serial.write(s[j].time>>12);
     
-    Serial.write(s[i].voltage);
-    Serial.write(s[i].voltage>>4);
-    Serial.write(s[i].voltage>>8);
-    Serial.write(s[i].voltage>>12);
+    Serial.write(s[j].voltage);
+    Serial.write(s[j].voltage>>4);
+    Serial.write(s[j].voltage>>8);
+    Serial.write(s[j].voltage>>12);
   }
 
   Serial.write("stop");
