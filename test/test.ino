@@ -5,23 +5,27 @@ void setup() {
   Serial.begin(9600);
   // Serial.write("test");
 
+  pinMode(15, OUTPUT);
 
-  long time = micros();
-  int voltage = 1000;
+  // digitalWrite(5, LOW);
 
-  
-  Serial.write(time);
-  Serial.write(time>>4);
-  Serial.write(time>>8);
-  Serial.write(time>>12);
-  
-  Serial.write(voltage);
-  Serial.write(voltage>>4);
-  Serial.write(voltage>>8);
-  Serial.write(voltage>>12);
+  // digitalWrite(5, HIGH);
+
+  // delay(3000);
+
+  // digitalWrite(5, LOW);
+
   
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+  digitalWrite(15, LOW);
+
+  delay(3000);
+
+  digitalWrite(15, HIGH);
+
+  delay(3000);
+
 }
