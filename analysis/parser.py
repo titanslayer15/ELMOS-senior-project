@@ -8,19 +8,33 @@ ser.timeout = None
 time = []
 volt = []
 
-i = 0
+data = bytearray()
 
 while True:
 
-    data = ser.read(4)
+    bt = ser.read(1);
     
-    if data == b'stop':
+    if bt == b' ':
+        time.append(data)
+        print(int.from_bytes(data, "big"))
+        data = bytearray()
+        continue
+        
+    elif bt == b'_':
+        time.append(data)
+        print(int.from_bytes(data, "little"))
         ser.close()
         break
 
-    else:
-        print(int.from_bytes(data, "little"))
-        print(int.from_bytes(ser.read(4), "little"))
+    data += bt;
+
+
+
+    
+    # else:
+        # print(int.from_bytes(data, "little"))
+        # print(int.from_bytes(ser.read(4), "little"))
+
 
 # for j in range(len(time)):
     # time[j] = int.from_bytes(time[j], "little")

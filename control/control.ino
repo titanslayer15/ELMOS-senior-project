@@ -3,7 +3,7 @@
 #define RECEIVER_RELAY_PIN 11
 #define BUTTON_PIN 12 // TEMP VALUE
 
-#define VOLTAGE_INPUT_PIN 9
+#define VOLTAGE_INPUT_PIN 10
 
 #define TRANSMITTER_ON_TIME 100 // Pulse length in microseconds 
 #define RECORD_SOUNDING_TIME 8000 // Recording duration in microseconds
@@ -31,6 +31,10 @@ void setup() {
   digitalWrite(TRANSMITTER_RELAY_PIN, HIGH);
   digitalWrite(TRANSMITTER_RELAY_PIN, LOW);
   */    
+
+  // TEST
+  pinMode(54, OUTPUT);
+  digitalWrite(54, HIGH);
   
   // Record sounding
   unsigned long t1 = micros();
@@ -55,6 +59,11 @@ void setup() {
   // Send data
 
   for (int j = 0; j < numSamples; j++) {
+
+    Serial.print(s[j].time);
+    Serial.write(" ");
+    
+    /*
     Serial.write(s[j].time);
     Serial.write(s[j].time>>4);
     Serial.write(s[j].time>>8);
@@ -64,9 +73,10 @@ void setup() {
     Serial.write(s[j].voltage>>4);
     Serial.write(s[j].voltage>>8);
     Serial.write(s[j].voltage>>12);
+    */
   }
 
-  Serial.write("stop");
+  Serial.write("_");
 }
 
 void loop() {
