@@ -1,4 +1,8 @@
 #define OUTPIN 54
+#define VOLTAGE_INPUT_PIN 10
+
+uint16_t v;
+unsigned long t;
 
 void setup() {
   // put your setup code here, to run once:
@@ -7,6 +11,8 @@ void setup() {
 
   pinMode(OUTPIN, OUTPUT);
 
+  pinMode(VOLTAGE_INPUT_PIN, INPUT);
+  
   // digitalWrite(5, LOW);
 
   // digitalWrite(5, HIGH);
@@ -15,19 +21,21 @@ void setup() {
 
   // digitalWrite(5, LOW);
 
-  
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  digitalWrite(OUTPIN, LOW);
-  /* analogWrite(9, LOW); */
-  
-  delay(1000);
 
-  digitalWrite(OUTPIN, HIGH);
-  /* analogWrite(9, HIGH); */
+  t = micros();
+  v = analogRead(A0);
   
-  delay(1000);
+  Serial.write(t);
+  Serial.write(t>>8);
+  Serial.write(t>>16);
+  Serial.write(t>>24);
 
+  Serial.write(v);
+  Serial.write(v>>8);
+  
+  /* delayMicroseconds(1000); */
+  delay(1000);
 }

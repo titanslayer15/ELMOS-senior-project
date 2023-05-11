@@ -3,7 +3,8 @@
 #define RECEIVER_RELAY_PIN 11
 #define BUTTON_PIN 12 // TEMP VALUE
 
-#define VOLTAGE_INPUT_PIN 10
+#define VOLTAGE_TX_INPUT_PIN A0
+#define VOLTAGE_RX_INPUT_PIN A1
 
 #define TRANSMITTER_ON_TIME 100 // Pulse length in microseconds 
 #define RECORD_SOUNDING_TIME 8000 // Recording duration in microseconds
@@ -12,7 +13,8 @@
 
 struct sounding {
   unsigned long time;
-  int voltage;
+  int voltageT;
+  int voltageR;
 };
 
 void setup() {
@@ -30,12 +32,10 @@ void setup() {
   // Trigger relay OFF
   digitalWrite(TRANSMITTER_RELAY_PIN, HIGH);
   digitalWrite(TRANSMITTER_RELAY_PIN, LOW);
-  */    
-
-  // TEST
-  pinMode(54, OUTPUT);
-  digitalWrite(54, HIGH);
+  */
   
+  // delay(5000);
+
   // Record sounding
   unsigned long t1 = micros();
   unsigned long t2 = t1 + RECORD_SOUNDING_TIME;
@@ -50,7 +50,8 @@ void setup() {
     delayMicroseconds(SAMPLE_TIME_INTERVAL_MICROSEC);
 
     s[i].time = micros() - t1;
-    s[i].voltage = analogRead(VOLTAGE_INPUT_PIN);
+    s[i].voltageT = analogRead(VOLTAGE_TX_INPUT_PIN);
+    s[i].voltageR = analogRead(VOLTAGE_RX_INPUT_PIN);
     
     i++;
   }
@@ -60,20 +61,16 @@ void setup() {
 
   for (int j = 0; j < numSamples; j++) {
 
-    Serial.print(s[j].time);
-    Serial.write(" ");
-    
-    /*
     Serial.write(s[j].time);
-    Serial.write(s[j].time>>4);
     Serial.write(s[j].time>>8);
-    Serial.write(s[j].time>>12);
+    Serial.write(s[j].time>>16);
+    Serial.write(s[j].time>>24);
     
-    Serial.write(s[j].voltage);
-    Serial.write(s[j].voltage>>4);
-    Serial.write(s[j].voltage>>8);
-    Serial.write(s[j].voltage>>12);
-    */
+    Serial.write(s[j].voltageT);
+    Serial.write(s[j].voltageT>>8);
+
+    Serial.write(s[j].voltageR);
+    Serial.write(s[j].voltageR>>8);
   }
 
   Serial.write("_");
