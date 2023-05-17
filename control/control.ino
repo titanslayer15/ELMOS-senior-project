@@ -13,8 +13,8 @@
 
 struct sounding {
   unsigned long time;
-  int voltageT;
-  int voltageR;
+  uint16_t voltageT;
+  uint16_t voltageR;
 };
 
 void setup() {
@@ -40,7 +40,7 @@ void setup() {
   unsigned long t1 = micros();
   unsigned long t2 = t1 + RECORD_SOUNDING_TIME;
 
-  int numSamples = (int)(RECORD_SOUNDING_TIME / SAMPLE_TIME_INTERVAL_MICROSEC) + 10;
+  int numSamples = (int)(RECORD_SOUNDING_TIME / SAMPLE_TIME_INTERVAL_MICROSEC);
 
   sounding s[numSamples];
 
@@ -59,7 +59,7 @@ void setup() {
 
   // Send data
 
-  for (int j = 0; j < numSamples; j++) {
+  for (int j = 0; j < i; j++) {
 
     Serial.write(s[j].time);
     Serial.write(s[j].time>>8);
@@ -73,7 +73,7 @@ void setup() {
     Serial.write(s[j].voltageR>>8);
   }
 
-  Serial.write("_");
+  Serial.write("stop");
 }
 
 void loop() {

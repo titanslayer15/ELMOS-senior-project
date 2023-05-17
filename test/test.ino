@@ -35,6 +35,8 @@ void loop() {
 
   Serial.write(v);
   Serial.write(v>>8);
+
+  Serial.print("stop");
   
   /* delayMicroseconds(1000); */
   delay(1000);

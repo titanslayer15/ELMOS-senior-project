@@ -14,7 +14,7 @@ while True:
 
     print(time)
     print(v)
-
+    print(ser.read(4));
 
     print('\n\n')
     

@@ -11,10 +11,9 @@ volt_T = []
 volt_R = []
 
 while True:
-
     t = ser.read(4)
     
-    if t == b'_':
+    if t == b'stop':
         ser.close()
         break
     
